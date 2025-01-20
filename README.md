@@ -21,11 +21,7 @@ A simple, lightweight tool for converting between musical notes and MIDI note nu
 
 ### Converting Note to MIDI Number
 
-```javascript
-const midiNoteConverter = {
-    // ... copy the converter object from index.html
-};
-
+```
 // Example usage
 const midiNumber = midiNoteConverter.toMIDI('C', 4);  // Returns 60
 const midiNumber = midiNoteConverter.toMIDI('A', 4);  // Returns 69
