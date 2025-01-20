@@ -10,6 +10,8 @@ A simple, lightweight tool for converting between musical notes and MIDI note nu
 - Standalone JavaScript API for programmatic use
 - No external dependencies
 
+![image](https://github.com/user-attachments/assets/84b08212-5901-4035-86c8-a12f1f16b5cf)
+
 ## Quick Start
 
 1. Clone or download the repository
