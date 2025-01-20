@@ -2,6 +2,8 @@
 
 A simple, lightweight tool for converting between musical notes and MIDI note numbers. This tool provides both a visual interface and a JavaScript API for note conversion.
 
+Try it here: https://steveseguin.github.io/midinote/
+
 ## Features
 
 - Convert musical notes (C-B with sharps) and octaves to MIDI note numbers (0-127)
