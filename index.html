@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>MIDI Note Converter</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
+            color: #fff;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            text-align: center;
+        }
+
+        h1 {
+            margin: 0 0 2rem;
+            color: #fff;
+            font-size: 1.8rem;
+        }
+
+        .controls {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            justify-content: center;
+        }
+
+        select {
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+            border: none;
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.9);
+            cursor: pointer;
+            outline: none;
+        }
+
+        select:hover {
+            background: #fff;
+        }
+
+        #result {
+            font-size: 1.5rem;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 6px;
+            margin-top: 1rem;
+        }
+
+        .midi-number {
+            color: #4CAF50;
+            font-weight: bold;
+            font-size: 2rem;
+            display: block;
+            margin-top: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>MIDI Note Converter</h1>
+        <div id="converter"></div>
+    </div>
+
+    <script>
+        const midiNoteConverter = {
+            notes: ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'],
+            
+            toMIDI(note, octave) {
+                if (!note || octave === undefined) return null;
+                const noteIndex = this.notes.indexOf(note.toUpperCase());
+                if (noteIndex === -1) return null;
+                const midiNumber = (octave + 1) * 12 + noteIndex;
+                return midiNumber >= 0 && midiNumber <= 127 ? midiNumber : null;
+            },
+            
+            fromMIDI(midiNumber) {
+                if (midiNumber < 0 || midiNumber > 127) return null;
+                const octave = Math.floor(midiNumber / 12) - 1;
+                const noteIndex = midiNumber % 12;
+                return {
+                    note: this.notes[noteIndex],
+                    octave: octave
+                };
+            }
+        };
+
+        const container = document.getElementById('converter');
+        container.innerHTML = `
+            <div class="controls">
+                <select id="noteSelect">
+                    ${midiNoteConverter.notes.map(note => `<option value="${note}">${note}</option>`).join('')}
+                </select>
+                <select id="octaveSelect">
+                    ${Array.from({length: 11}, (_, i) => `<option value="${i-1}">${i-1}</option>`).join('')}
+                </select>
+            </div>
+            <div id="result">Select a note and octave</div>
+        `;
+
+        const updateResult = () => {
+            const note = document.getElementById('noteSelect').value;
+            const octave = parseInt(document.getElementById('octaveSelect').value);
+            const midiNumber = midiNoteConverter.toMIDI(note, octave);
+            document.getElementById('result').innerHTML = midiNumber !== null ? 
+                `MIDI Note:<br><span class="midi-number">${midiNumber}</span>` : 
+                'Invalid note/octave combination';
+        };
+
+        document.getElementById('noteSelect').addEventListener('change', updateResult);
+        document.getElementById('octaveSelect').addEventListener('change', updateResult);
+        updateResult();
+    </script>
+</body>
+</html>
